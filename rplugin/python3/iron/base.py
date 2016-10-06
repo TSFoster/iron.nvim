@@ -289,4 +289,4 @@ class BaseIron(object):
                 self.term_placement()
 
             self.call_cmd("b {}".format(self.__repl[ft]['instances'][pwd]))
-        log.debug("Done! REPL for {} started".format(ft))
+        logger.debug("Done! REPL for {} started".format(ft))
