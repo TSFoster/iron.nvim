@@ -262,4 +262,4 @@ class BaseIron(object):
             if with_placement:
                 self.term_placement()
 
-            self.command("b {}".format(self.__repl[ft]['instances'][pwd]))
+            self.call_cmd("b {}".format(self.__repl[ft]['instances'][pwd]))
