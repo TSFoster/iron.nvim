@@ -212,6 +212,7 @@ class BaseIron(object):
 
 
     def call_hooks(self, repl_definition):
+        ft = repl_definition['ft']
         curr_buf = self.__nvim.current.buffer.number
 
         hooks = filter(None, (
