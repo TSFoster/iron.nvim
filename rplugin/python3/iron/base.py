@@ -223,7 +223,10 @@ class BaseIron(object):
 
         logger.info("Got this list of hook functions: {}".format(hooks))
 
-        [self.call(i, curr_buf, repl_definition) for i in hooks]
+        payload = repl_definition
+        del payload['fns']
+
+        [self.call(i, curr_buf, payload) for i in hooks]
 
     def bind_repl(self, repl_definition, repl_id):
         ft = repl_definition['ft']
