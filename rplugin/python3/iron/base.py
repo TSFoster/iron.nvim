@@ -220,7 +220,7 @@ class BaseIron(object):
         logger.info("Storing repl id {} for ft {}".format(repl_id, ft))
         repl_definition['instances'][pwd] = repl_id
 
-        self.__nvim.tabpage.vars[
+        self.__nvim.current.tabpage.vars[
             "iron_{}_repl".format(ft)
         ] = self.__nvim.current.buffer.number
 
