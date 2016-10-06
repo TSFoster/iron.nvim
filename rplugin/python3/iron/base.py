@@ -216,10 +216,10 @@ class BaseIron(object):
         ft = repl_definition['ft']
         curr_buf = self.__nvim.current.buffer.number
 
-        hooks = filter(None, (
+        hooks = list(filter(None, (
             self.get_list_variable("iron_new_repl_hooks") +
             self.get_list_variable('iron_new_{}_repl_hooks'.format(ft))
-        ))
+        )))
 
         logger.info("Got this list of hook functions: {}".format(hooks))
 
@@ -289,4 +289,4 @@ class BaseIron(object):
                 self.term_placement()
 
             self.call_cmd("b {}".format(self.__repl[ft]['instances'][pwd]))
-
+        log.debug("Done! REPL for {} started".format(ft))
