@@ -258,5 +258,8 @@ class BaseIron(object):
 
         elif self.__nvim.funcs.bufwinnr(
                 self.__repl[ft]['instances'][pwd]) == -1:
-            self.term_placement()
-            self.command("b {}".format(self.__repl[ft][pwd]))
+
+            if with_placement:
+                self.term_placement()
+
+            self.command("b {}".format(self.__repl[ft]['instances'][pwd]))
