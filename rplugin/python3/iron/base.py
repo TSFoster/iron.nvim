@@ -256,6 +256,7 @@ class BaseIron(object):
             repl_id = self.termopen(command, with_placement)
             self.set_repl_metadata(self.__repl[ft], repl_id)
 
-        elif self.__nvim.funcs.bufwinnr(self.__repl[ft][pwd]) == -1:
+        elif self.__nvim.funcs.bufwinnr(
+                self.__repl[ft]['instances'][pwd]) == -1:
             self.term_placement()
             self.command("b {}".format(self.__repl[ft][pwd]))
