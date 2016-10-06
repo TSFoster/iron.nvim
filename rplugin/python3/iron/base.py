@@ -167,6 +167,7 @@ class BaseIron(object):
         logger.warning("#--   End of repl def dump   --#")
 
     def set_mappings(self, template, repl_definition):
+        ft = template['language']
 
         logger.info("Mapping special functions for {}".format(ft))
         logger.debug(
