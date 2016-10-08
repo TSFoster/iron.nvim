@@ -223,9 +223,9 @@ class BaseIron(object):
 
         payload = dict.copy(repl_definition)
         del payload['fns']
+        buf_id = payload['instances'][pwd]['buf_id']
 
-        [self.call(i, payload['instances'][pwd]['buf_id'], payload)
-         for i in hooks]
+        [self.call(i, buf_id, payload) for i in hooks]
 
     def bind_repl(self, repl_definition, repl_id):
         ft = repl_definition['ft']
