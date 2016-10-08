@@ -90,12 +90,14 @@ class BaseIron(object):
     def send_data(self, data, repl):
         ft = repl['ft']
 
-        repl_id = repl['instances'].get(self.get_pwd())
+        instance = repl['instances'].get(self.get_pwd())
 
-        if repl_id is None:
+        if instance is None:
             key = "iron_{}_repl_id".format(ft)
             logger.info('Finding target repl via `{}`'.format(key))
             repl_id = self.nvim.current.tabpage.vars[key]
+        else:
+            repl_id = instance['repl_id']
 
         logger.info('Sending data to repl ({}):\n{}'.format(repl_id, data))
 
