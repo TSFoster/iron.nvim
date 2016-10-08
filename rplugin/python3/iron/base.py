@@ -285,7 +285,7 @@ class BaseIron(object):
                 self.__repl[ft], repl_id, detached
             )
 
-        elif (bufwinnr(self.__repl[ft]['instances'][pwd]) == -1 and
+        elif (bufwinnr(self.__repl[ft]['instances'][pwd]) != -1 and
               bufname(self.__repl[ft]['instances'][pwd]) != ""):
 
             if with_placement:
