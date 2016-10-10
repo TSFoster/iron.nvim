@@ -307,5 +307,10 @@ class BaseIron(object):
                     self.term_placement()
 
                 self.call_cmd("b {}".format(buf_id))
+            else:
+                repl_id = self.termopen(command, with_placement)
+                self.__repl[ft] = self.post_process(
+                    self.__repl[ft], repl_id, detached
+                )
 
         logger.debug("Done! REPL for {} running on {}".format(ft, pwd))
