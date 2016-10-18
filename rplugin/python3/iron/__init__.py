@@ -77,7 +77,7 @@ class Iron(BaseIron):
         except:
             logger.warning("User aborted.")
 
-    @neovim.function("IronStartRepl", async=False)
+    @neovim.function("IronStartRepl", sync=False)
     def iron_repl(self, args):
         ft = args[0]
         kwargs = {
