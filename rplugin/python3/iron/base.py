@@ -56,10 +56,11 @@ class BaseIron(object):
     def has_repl_template(self, ft):
         return bool(self._list_repl_templates(ft))
 
-    def term_placement(self):
+    def term_placement(self, buf_id=None):
         self.call_cmd(
-            "{} | enew | exec bufwinnr(bufnr('$')).'wincmd w'".format(
-                self.get_variable('iron_repl_open_cmd', 'botright spl')
+            "{} | {} | exec bufwinnr(bufnr('$')).'wincmd w'".format(
+                self.get_variable('iron_repl_open_cmd', 'botright spl'),
+                "b {}".format(buf_id) if buf_id is not None else 'enew'
             ))
 
 
@@ -272,6 +273,7 @@ class BaseIron(object):
         command = kwargs.get('command', template['command'])
         with_placement = kwargs.get('with_placement', True)
         detached = kwargs.get('detached', False)
+        bang = kwargs.get('bang', False)
         bufwinnr = self.nvim.funcs.bufwinnr
         bufname = self.nvim.funcs.bufname
 
@@ -297,15 +299,17 @@ class BaseIron(object):
 
         else:
             buf_id = self.__repl[ft]['instances'][pwd]['buf_id']
+            win_nr = bufwinnr(buf_id)
             logger.debug(
                 "REPL for ft {} exists on path {}. Buffer ID is {}".format(
                     ft, pwd, buf_id
                 ))
 
-            win_nr = bufwinnr(buf_id)
             if (win_nr != -1 and bufname(buf_id) != ""):
                 logger.debug("REPL is still valid, toggling off.")
                 self.call_cmd('{} wincmd w | q | stopinsert'.format(win_nr))
+            elif not bang and with_placement:
+                self.term_placement(buf_id)
             else:
                 logger.debug("Creating a new REPL since previous was closed.")
                 repl_id = self.termopen(command, with_placement)
