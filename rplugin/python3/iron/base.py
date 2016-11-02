@@ -303,11 +303,8 @@ class BaseIron(object):
                 ))
 
             if (bufwinnr(buf_id) != -1 and bufname(buf_id) != ""):
-                logger.debug("REPL is still valid.")
-                if with_placement:
-                    self.term_placement()
-
-                self.call_cmd("b {}".format(buf_id))
+                logger.debug("REPL is still valid, toggling off.")
+                self.call_cmd('{} wincmd w | q | stopinsert')
             else:
                 logger.debug("Creating a new REPL since previous was closed.")
                 repl_id = self.termopen(command, with_placement)
