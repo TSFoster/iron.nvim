@@ -277,25 +277,24 @@ class BaseIron(object):
         bufwinnr = self.nvim.funcs.bufwinnr
         bufname = self.nvim.funcs.bufname
 
-        if not self.has_repl_defined(ft):
-            logger.debug("No REPL started for ft {}. Starting".format(ft))
+        def create_new_repl():
             repl_id = self.termopen(command, with_placement)
-            repl_definition = self.build_from_template(
+            repl_definition = self.__repl.get(ft, self.build_from_template(
                 template, command, with_placement
-            )
+            ))
+
             self.__repl[ft] = self.post_process(
                 repl_definition, repl_id, detached
             )
 
-
+        if not self.has_repl_defined(ft):
+            logger.debug("No REPL started for ft {}. Starting".format(ft))
+            create_new_repl()
         elif not pwd in self.__repl[ft]['instances']:
             logger.debug("No REPL for ft {} on path '{}'. Creating".format(
                 ft, pwd
             ))
-            repl_id = self.termopen(command, with_placement)
-            self.__repl[ft] = self.post_process(
-                self.__repl[ft], repl_id, detached
-            )
+            create_new_repl()
 
         else:
             buf_id = self.__repl[ft]['instances'][pwd]['buf_id']
@@ -308,13 +307,14 @@ class BaseIron(object):
             if (win_nr != -1 and bufname(buf_id) != ""):
                 logger.debug("REPL is still valid, toggling off.")
                 self.call_cmd('{} wincmd w | q | stopinsert'.format(win_nr))
+            elif bufname(buf_id == ""):
+                logger.debug("REPL has finished, creating new.")
+                create_new_repl()
             elif not bang and with_placement:
                 self.term_placement(buf_id)
             else:
                 logger.debug("Creating a new REPL since previous was closed.")
-                repl_id = self.termopen(command, with_placement)
-                self.__repl[ft] = self.post_process(
-                    self.__repl[ft], repl_id, detached
-                )
+                logger.debug("Shouldn't probably hit here.")
+                create_new_repl()
 
         logger.debug("Done! REPL for {} running on {}".format(ft, pwd))
