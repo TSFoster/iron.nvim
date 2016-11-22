@@ -1,6 +1,7 @@
 # encoding:utf-8
 """General repl definitions for iron.nvim. """
 import iron.repls.clojure
+import iron.repls.elm
 import iron.repls.elixir
 import iron.repls.erlang
 import iron.repls.lua
@@ -17,6 +18,7 @@ import iron.repls.tcl
 available_repls = [
     clojure.connect,
     clojure.repl,
+    elm.repl,
     elixir.repl,
     erlang.repl,
     lua.repl,
