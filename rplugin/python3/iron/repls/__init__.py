@@ -15,6 +15,7 @@ import iron.repls.r
 import iron.repls.tcl
 
 available_repls = [
+    clojure.connect,
     clojure.repl,
     elixir.repl,
     erlang.repl,
